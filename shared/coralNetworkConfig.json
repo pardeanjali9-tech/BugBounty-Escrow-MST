@@ -1,0 +1,28 @@
+{
+  "networkName": "MST Coral Testnet",
+  "chainId": 54635,
+  "chainIdHex": "0xd56b",
+  "rpcUrls": {
+    "http": "https://coralrpc.mstblockchain.com",
+    "ws": "wss://coralrpc.mstblockchain.com"
+  },
+  "nativeCurrency": {
+    "name": "MST Coral Token",
+    "symbol": "tMSTC",
+    "decimals": 18
+  },
+  "blockExplorer": "https://coral.mstscan.com",
+  "faucetUrl": "https://coral-faucet.mstblockchain.com",
+  "documentation": "https://mstblockchain.com",
+  "wallet": {
+    "supportedWallet": "BridgeKey",
+    "supportedRdns": ["io.bridgekey", "io.bridgekey.wallet"],
+    "windowFlags": ["bridgekey", "bridgeKey"],
+    "requiredProperty": "isBridgeKey"
+  },
+  "compatibility": {
+    "evm": "Osaka / Geth v1.7.8+",
+    "solidity": "^0.8.20"
+  }
+}
+
