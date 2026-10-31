@@ -70,7 +70,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-if (process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log("====================================================");
     console.log(`VEIL BugBounty Escrow Backend API Service`);

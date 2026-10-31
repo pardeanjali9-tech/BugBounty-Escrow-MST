@@ -43,7 +43,7 @@ export class StorageService {
   private reportsIndex: Map<string, StoredEncryptedReport>;
 
   constructor(customDataDir?: string) {
-    this.dataDir = customDataDir || path.resolve(__dirname, "../../data/encrypted_reports");
+    this.dataDir = customDataDir || (process.env.VERCEL ? "/tmp/encrypted_reports" : path.resolve(__dirname, "../../data/encrypted_reports"));
     this.reportsFile = path.join(this.dataDir, "index.json");
     this.reportsIndex = new Map();
     this.init();
