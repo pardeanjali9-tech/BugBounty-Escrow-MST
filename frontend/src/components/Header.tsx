@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
             {CORAL_CONFIG.networkName}
           </span>
           <span className="text-graphite-500">|</span>
-          <span className="text-graphite-400">Chain ID: {CORAL_CONFIG.chainId} (0xd56b)</span>
+          <span className="text-graphite-400">Chain ID: {CORAL_CONFIG.chainId} ({CORAL_CONFIG.chainIdHex})</span>
           <span className="text-graphite-500 hidden md:inline">|</span>
           <span className="text-graphite-400 hidden md:inline">Osaka EVM Compatible</span>
         </div>
@@ -58,16 +58,27 @@ export const Header: React.FC<HeaderProps> = ({
             rel="noopener noreferrer"
             className="hover:text-coral-300 transition-colors flex items-center gap-1"
           >
-            Coral Explorer <ExternalLink className="w-3 h-3" />
+            MST Explorer <ExternalLink className="w-3 h-3" />
           </a>
-          <a
-            href={CORAL_CONFIG.faucetUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-coral-300 transition-colors flex items-center gap-1 text-coral-400"
-          >
-            tMSTC Faucet <ArrowUpRight className="w-3 h-3" />
-          </a>
+          {CORAL_CONFIG.faucetUrl ? (
+            <a
+              href={CORAL_CONFIG.faucetUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-coral-300 transition-colors flex items-center gap-1 text-coral-400"
+            >
+              Faucet <ArrowUpRight className="w-3 h-3" />
+            </a>
+          ) : (
+            <a
+              href="https://mstblockchain.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-coral-300 transition-colors flex items-center gap-1 text-mint-400"
+            >
+              Mainnet Verified <ArrowUpRight className="w-3 h-3" />
+            </a>
+          )}
         </div>
       </div>
 

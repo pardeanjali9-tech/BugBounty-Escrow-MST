@@ -50,7 +50,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ wallet }) => {
             Network & System Diagnostics
           </h1>
           <p className="text-xs text-graphite-500 mt-1">
-            Verification parameters for MST Coral Testnet & BridgeKey integration
+            Verification parameters for {CORAL_CONFIG.networkName} & BridgeKey integration
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ wallet }) => {
             <div className="flex items-center gap-2">
               <Cpu className="w-4 h-4 text-coral-600" />
               <h3 className="font-serif text-base font-bold text-graphite-900 font-sans">
-                Verified Coral Testnet Specs
+                {CORAL_CONFIG.networkName} Specs
               </h3>
             </div>
             <span className="text-2xs text-mint-700 bg-mint-100 px-2 py-0.5 rounded border border-mint-300 font-bold">

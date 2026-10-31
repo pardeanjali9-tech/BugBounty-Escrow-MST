@@ -6,6 +6,8 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "generate:account": "ts-node scripts/generate-account.ts",
+    "deploy:mainnet": "hardhat run scripts/deploy-mainnet.ts --network mstMainnet",
+    "verify:mainnet": "hardhat run scripts/verify-mainnet.ts --network mstMainnet",
     "deploy:coral": "hardhat run scripts/deploy.ts --network coral",
     "verify:coral": "hardhat run scripts/verify-coral.ts --network coral"
   },

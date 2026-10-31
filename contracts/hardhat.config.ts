@@ -19,6 +19,12 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 31337,
     },
+    mstMainnet: {
+      url: process.env.MST_MAINNET_RPC_URL || "https://mariorpc.mstblockchain.com",
+      chainId: 4646,
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      gasPrice: 1000000000, // 1 gwei verified
+    },
     coral: {
       url: process.env.CORAL_RPC_URL || "https://coralrpc.mstblockchain.com",
       chainId: 54635,
@@ -28,9 +34,18 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
+      mstMainnet: "empty",
       coral: "empty",
     },
     customChains: [
+      {
+        network: "mstMainnet",
+        chainId: 4646,
+        urls: {
+          apiURL: "https://mstscan.com/api",
+          browserURL: "https://mstscan.com",
+        },
+      },
       {
         network: "coral",
         chainId: 54635,
@@ -50,4 +65,3 @@ const config: HardhatUserConfig = {
 };
 
 export default config;
-

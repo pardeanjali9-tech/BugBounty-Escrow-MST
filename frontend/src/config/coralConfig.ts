@@ -22,7 +22,31 @@ export interface CoralConfig {
   };
 }
 
-export const CORAL_CONFIG: CoralConfig = {
+export const MST_MAINNET_CONFIG: CoralConfig = {
+  networkName: "MST Blockchain Mainnet",
+  chainId: 4646,
+  chainIdHex: "0x1226",
+  rpcUrls: {
+    http: "https://mariorpc.mstblockchain.com",
+    ws: "wss://mariorpc.mstblockchain.com",
+  },
+  nativeCurrency: {
+    name: "MST Coin",
+    symbol: "MSTC",
+    decimals: 18,
+  },
+  blockExplorer: "https://mstscan.com",
+  faucetUrl: "",
+  documentation: "https://mstblockchain.com",
+  wallet: {
+    supportedWallet: "BridgeKey",
+    supportedRdns: ["io.bridgekey", "io.bridgekey.wallet"],
+    windowFlags: ["bridgekey", "bridgeKey"],
+    requiredProperty: "isBridgeKey",
+  },
+};
+
+export const CORAL_TESTNET_CONFIG: CoralConfig = {
   networkName: "MST Coral Testnet",
   chainId: 54635,
   chainIdHex: "0xd56b",
@@ -46,8 +70,11 @@ export const CORAL_CONFIG: CoralConfig = {
   },
 };
 
-// Deployed contract address on MST Coral Testnet
-// (Can be updated via deployments.json or environment)
+// Default active network: MST Mainnet (Chain ID 4646)
+export const CORAL_CONFIG: CoralConfig =
+  import.meta.env.VITE_NETWORK === "coral" ? CORAL_TESTNET_CONFIG : MST_MAINNET_CONFIG;
+
+// Deployed contract address
 export const ESCROW_CONTRACT_ADDRESS =
   import.meta.env.VITE_ESCROW_CONTRACT_ADDRESS ||
   "0x5FbDB2315678afecb367f032d93F642f64180aa3";
@@ -92,4 +119,3 @@ export const BUGBOUNTY_ESCROW_ABI = [
   "function getProgramReports(uint256 programId) external view returns (uint256[] memory)",
   "function getResearcherReports(address researcher) external view returns (uint256[] memory)"
 ];
-

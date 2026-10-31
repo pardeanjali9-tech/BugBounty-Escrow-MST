@@ -14,26 +14,36 @@ Key pillars:
 - **Cryptographic Commitments:** A canonical 32-byte hash commitment (`keccak256`) is stored on-chain, proving submission timestamp, severity, and report integrity.
 - **Escrow Accounting Invariant:** Escrow deposits are strictly partitioned: $\text{Available} = \text{TotalFunded} - \text{ReservedRewards} - \text{PaidRewards}$. Owners can never withdraw funds owed to researchers.
 - **Pull-Payment Bounties:** Approved researchers withdraw rewards directly from the contract using reentrancy-guarded pull transactions.
-- **Network & Wallet Exclusivity:** Operates **strictly on MST Coral Testnet** (Chain ID: `54635`) with **BridgeKey Wallet**. No fallbacks to Ethereum Sepolia, mainnet, MetaMask, or Coinbase Wallet.
+- **Network & Wallet Exclusivity:** Operates natively on **MST Blockchain Mainnet** (Chain ID: `4646` / `0x1226`) and **MST Coral Testnet** (Chain ID: `54635` / `0xd56b`) with **BridgeKey Wallet**.
 
 ---
 
-## 2. MST Coral Testnet & BridgeKey Verification
+## 2. Verified MST Networks & BridgeKey Specifications
 
-Before developing blockchain code, network parameters were verified directly against the live RPC endpoint and official developer resources:
+Network parameters were verified directly against the live MST JSON-RPC endpoints:
 
+### MST Blockchain Mainnet (Production)
+| Parameter | Verified Value |
+| :--- | :--- |
+| **Network Name** | `MST Blockchain Mainnet` |
+| **Chain ID** | `4646` (Hex: `0x1226`) |
+| **HTTP RPC Endpoint** | `https://mariorpc.mstblockchain.com` |
+| **Secondary RPC** | `https://craftrpc.mstblockchain.com` |
+| **Native Gas Token** | `MSTC` (18 decimals) |
+| **Current Gas Price** | `1.0 gwei` |
+| **EVM Compatibility** | Osaka EVM / Geth v1.7.8+ (Shanghai/Osaka opcodes) |
+| **Block Explorer** | [https://mstscan.com](https://mstscan.com) |
+| **Supported Wallet** | **BridgeKey** (`io.bridgekey` / `window.bridgekey` / EIP-6963) |
+
+### MST Coral Testnet (Testing)
 | Parameter | Verified Value |
 | :--- | :--- |
 | **Network Name** | `MST Coral Testnet` |
 | **Chain ID** | `54635` (Hex: `0xd56b`) |
 | **HTTP RPC Endpoint** | `https://coralrpc.mstblockchain.com` |
-| **WebSocket RPC** | `wss://coralrpc.mstblockchain.com` |
 | **Native Gas Token** | `tMSTC` (18 decimals) |
-| **Current Gas Price** | `1.0 gwei` |
-| **EVM Compatibility** | Osaka EVM / Geth v1.7.8+ (Shanghai/Osaka opcodes) |
 | **Block Explorer** | [https://coral.mstscan.com](https://coral.mstscan.com) |
 | **Official Faucet** | [https://coral-faucet.mstblockchain.com](https://coral-faucet.mstblockchain.com) |
-| **Supported Wallet** | **BridgeKey** (`io.bridgekey` / `window.bridgekey` / EIP-6963) |
 
 ---
 
@@ -185,9 +195,43 @@ npm run test:frontend
 
 ---
 
-## 8. Verifying MST Coral RPC & Deploying Contracts
+## 8. Verifying MST RPC & Deploying Contracts
 
-### Verify MST Coral Testnet RPC
+### 8.1 Verify MST Blockchain Mainnet RPC
+Run the mainnet verification script to inspect live MST Mainnet connectivity:
+```bash
+cd contracts
+npx hardhat run scripts/verify-mainnet.ts --network mstMainnet
+```
+
+Verified Output:
+```
+====================================================
+MST BLOCKCHAIN MAINNET CONNECTIVITY VERIFICATION
+====================================================
+Reported Chain ID: 4646 (Expected: 4646 / 0x1226)
+Latest Block Number: 21801260+
+Current Gas Price:   1.0 gwei
+MST Mainnet RPC:     REACHABLE & VERIFIED
+Block Explorer:      https://mstscan.com
+Primary RPC:         https://mariorpc.mstblockchain.com
+Secondary RPC:       https://craftrpc.mstblockchain.com
+====================================================
+```
+
+### 8.2 Deploying BugBountyEscrow to MST Mainnet
+1. Add your deployer private key (holding real `MSTC` for gas) in `contracts/.env`:
+   ```env
+   PRIVATE_KEY=0x<your_deployer_private_key>
+   MST_MAINNET_RPC_URL=https://mariorpc.mstblockchain.com
+   ```
+2. Run the deployment command:
+   ```bash
+   npm run deploy:mainnet --prefix contracts
+   ```
+   The script checks deployer balance on MST Mainnet, compiles with Solidity 0.8.20, broadcasts the transaction, logs the contract address and tx hash, and auto-syncs the address to the frontend and backend configurations.
+
+### 8.3 Verify MST Coral Testnet RPC
 Run the verification script to inspect live Coral chain status:
 ```bash
 cd contracts

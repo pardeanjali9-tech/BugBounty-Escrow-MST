@@ -29,20 +29,42 @@ export interface CoralNetworkConfig {
   };
 }
 
-const sharedConfigPath = path.resolve(__dirname, "../../../shared/coralNetworkConfig.json");
+const isMainnet = process.env.NETWORK === "mainnet" || process.env.MST_NETWORK === "mainnet";
 
-let loadedConfig: CoralNetworkConfig;
-
-try {
-  if (fs.existsSync(sharedConfigPath)) {
-    loadedConfig = JSON.parse(fs.readFileSync(sharedConfigPath, "utf-8"));
-  } else {
-    loadedConfig = {
+export const coralConfig: CoralNetworkConfig = isMainnet
+  ? {
+      networkName: "MST Blockchain Mainnet",
+      chainId: 4646,
+      chainIdHex: "0x1226",
+      rpcUrls: {
+        http: process.env.MST_MAINNET_RPC_URL || "https://mariorpc.mstblockchain.com",
+        ws: "wss://mariorpc.mstblockchain.com",
+      },
+      nativeCurrency: {
+        name: "MST Coin",
+        symbol: "MSTC",
+        decimals: 18,
+      },
+      blockExplorer: "https://mstscan.com",
+      faucetUrl: "",
+      documentation: "https://mstblockchain.com",
+      wallet: {
+        supportedWallet: "BridgeKey",
+        supportedRdns: ["io.bridgekey", "io.bridgekey.wallet"],
+        windowFlags: ["bridgekey", "bridgeKey"],
+        requiredProperty: "isBridgeKey",
+      },
+      compatibility: {
+        evm: "Osaka / Geth v1.7.8+",
+        solidity: "^0.8.20",
+      },
+    }
+  : {
       networkName: "MST Coral Testnet",
       chainId: 54635,
       chainIdHex: "0xd56b",
       rpcUrls: {
-        http: "https://coralrpc.mstblockchain.com",
+        http: process.env.CORAL_RPC_URL || "https://coralrpc.mstblockchain.com",
         ws: "wss://coralrpc.mstblockchain.com",
       },
       nativeCurrency: {
@@ -64,41 +86,3 @@ try {
         solidity: "^0.8.20",
       },
     };
-  }
-} catch {
-  loadedConfig = {
-    networkName: "MST Coral Testnet",
-    chainId: 54635,
-    chainIdHex: "0xd56b",
-    rpcUrls: {
-      http: "https://coralrpc.mstblockchain.com",
-      ws: "wss://coralrpc.mstblockchain.com",
-    },
-    nativeCurrency: {
-      name: "MST Coral Token",
-      symbol: "tMSTC",
-      decimals: 18,
-    },
-    blockExplorer: "https://coral.mstscan.com",
-    faucetUrl: "https://coral-faucet.mstblockchain.com",
-    documentation: "https://mstblockchain.com",
-    wallet: {
-      supportedWallet: "BridgeKey",
-      supportedRdns: ["io.bridgekey", "io.bridgekey.wallet"],
-      windowFlags: ["bridgekey", "bridgeKey"],
-      requiredProperty: "isBridgeKey",
-    },
-    compatibility: {
-      evm: "Osaka / Geth v1.7.8+",
-      solidity: "^0.8.20",
-    },
-  };
-}
-
-// Override with process.env if provided
-if (process.env.CORAL_RPC_URL) {
-  loadedConfig.rpcUrls.http = process.env.CORAL_RPC_URL;
-}
-
-export const coralConfig: CoralNetworkConfig = loadedConfig;
-

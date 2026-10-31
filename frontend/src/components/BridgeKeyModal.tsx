@@ -58,10 +58,10 @@ export const BridgeKeyModal: React.FC<BridgeKeyModalProps> = ({
               Protocol Constraint
             </h4>
             <p className="text-graphite-700 leading-relaxed">
-              VEIL operates exclusively on the <strong>MST Coral Testnet</strong> using{" "}
+              VEIL operates on the <strong>{CORAL_CONFIG.networkName}</strong> (Chain ID: {CORAL_CONFIG.chainId}) using{" "}
               <strong>BridgeKey Wallet</strong>. In accordance with platform security specifications,
               generic wallets (MetaMask, Coinbase Wallet, WalletConnect) or foreign networks
-              (Sepolia, Mainnet) are <strong>not supported as fallbacks</strong>.
+              are <strong>not supported as fallbacks</strong>.
             </p>
           </div>
 

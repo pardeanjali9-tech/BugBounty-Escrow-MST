@@ -160,7 +160,7 @@ export function useBridgeKeyWallet() {
         method: "eth_chainId",
       });
       const chainId = parseInt(chainIdHex, 16);
-      const isCorrect = chainId === CORAL_CONFIG.chainId;
+      const isCorrect = chainId === CORAL_CONFIG.chainId || chainId === 4646 || chainId === 54635;
 
       setProviderInstance(provider);
       setWalletState({
@@ -173,7 +173,7 @@ export function useBridgeKeyWallet() {
         balance: "0.0",
         error: isCorrect
           ? null
-          : `Connected to Chain ID ${chainId}. MST Coral Testnet (Chain ID ${CORAL_CONFIG.chainId}) is required.`,
+          : `Connected to Chain ID ${chainId}. ${CORAL_CONFIG.networkName} (Chain ID ${CORAL_CONFIG.chainId}) is required.`,
       });
 
       if (isCorrect) {
@@ -271,14 +271,14 @@ export function useBridgeKeyWallet() {
 
     const handleChainChanged = (chainIdHex: string) => {
       const chainId = parseInt(chainIdHex, 16);
-      const isCorrect = chainId === CORAL_CONFIG.chainId;
+      const isCorrect = chainId === CORAL_CONFIG.chainId || chainId === 4646 || chainId === 54635;
       setWalletState((prev) => ({
         ...prev,
         chainId,
         isCorrectNetwork: isCorrect,
         error: isCorrect
           ? null
-          : `Connected to Chain ID ${chainId}. MST Coral Testnet (Chain ID ${CORAL_CONFIG.chainId}) is required.`,
+          : `Connected to Chain ID ${chainId}. ${CORAL_CONFIG.networkName} (Chain ID ${CORAL_CONFIG.chainId}) is required.`,
       }));
       if (walletState.account) {
         refreshBalance(walletState.account, provider);
@@ -312,7 +312,7 @@ export function useBridgeKeyWallet() {
     }
 
     if (!walletState.isCorrectNetwork) {
-      throw new Error("Active network is not MST Coral Testnet (Chain ID 54635). Please switch network.");
+      throw new Error(`Active network is not ${CORAL_CONFIG.networkName} (Chain ID ${CORAL_CONFIG.chainId}). Please switch network in BridgeKey.`);
     }
 
     const browserProvider = new ethers.BrowserProvider(provider);
