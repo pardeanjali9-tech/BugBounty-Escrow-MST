@@ -40,3 +40,4 @@ main().catch((error) => {
   console.error("Verification failed:", error);
   process.exitCode = 1;
 });
+
